@@ -5,9 +5,11 @@ import morgan from 'morgan';
 import Comment from './commentModel.js';
 import expressUpload from 'express-fileupload';
 import uploader from './cloudinary.js';
+import dotenv from 'dotenv'
+
 
 // import bodyParser from 'body-parser';
-
+dotenv.config()
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
