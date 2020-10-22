@@ -16,7 +16,7 @@ app.use(expressUpload({ useTempFiles: true }));
 
 //app.use(bodyParser.urlencoded({extended:true}));
 mongoose
-  .connect('mongodb://localhost/blog', {
+  .connect(process.env.DATABASE, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -93,7 +93,7 @@ app.post('/createArticle', (req, res) => {
           });
         });
     }).catch(error=>{
-      console.log(error);
+      console.log(error)
     })
 });
 
@@ -229,4 +229,4 @@ app.put('/fetchArticles/:articleID/like', (req, res) => {
     });
 });
 
-app.listen(3000, console.log('server is on port 3000'));
+app.listen(process.env.PORT, console.log('server is on port 3000'));
