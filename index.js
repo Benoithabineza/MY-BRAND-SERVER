@@ -89,10 +89,12 @@ app.post('/createArticle', (req, res) => {
           console.log(error);
           res.status(500).json({
             success: false,
-            message: 'fail to create a user',
+            message: 'fail to create  a post',
           });
         });
-    });
+    }).catch(error=>{
+      console.log(error);
+    })
 });
 
 // fetch all posts
@@ -126,7 +128,7 @@ app.delete('deleteArticle/:articleID', (req, res) => {
     .catch((err) => {
       console.log(err);
       res.status(500).json({
-        message: 'there error deleting a user',
+        message: 'there is error deleting a user',
       });
     });
   //     (err) => {
@@ -157,7 +159,7 @@ app.patch('/updateArticle/:articleID', (req, res) => {
   });
 });
 
-// fetch one piost
+// fetch one post
 
 app.get('/fetchArticles/:articleID', (req, res) => {
   Blog.findById(req.params.articleID)
@@ -178,7 +180,7 @@ app.get('/fetchArticles/:articleID', (req, res) => {
     });
 });
 
-// =====COMMENT======
+// COMMENT
 
 app.post('/fetchArticles/:articleID/comment', (req, res) => {
   Comment.create({
