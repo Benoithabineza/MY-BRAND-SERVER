@@ -61,43 +61,38 @@ mongoose
 
 // create post
 
-app.post('/createArticle', (req, res) => {
+app.post('/createArticle', async(req, res) => {
   const imagePath = req.files.picture.tempFilePath;
-  uploader
+console.log(imagePath);
+
+
+try {
+  const result =await uploader
     .upload(imagePath, (error, result) => {
-      if (error)
-        res.status(500).json({
-          message: ' there was error uploading picture',
-        });
-      console.log(result);
+      return result
     })
-    .then((result) => {
-      Blog.create({
+    
+      const post =await Blog.create({
         title: req.body.title,
         body: req.body.body,
         picture: result.url,
         time: Date.now(),
-        likes: 0,
-        views: 0,
-        commentsCount: 0,
       })
-        .then((post) => {
-          res.status(201).json({
+       res.status(201).json({
             success: true,
             post: post,
           });
-        })
-        .catch((error) => {
-          console.log(error);
-          res.status(500).json({
-            success: false,
-            message: 'fail to create  a post',
-          });
-        });
-    }).catch(error=>{
-      console.log(error)
-    })
-});
+} catch (error) {
+  console.log(error)
+
+  res.status(500).json({
+    success: true,
+    error  
+  });
+  
+}
+})
+
 
 // fetch all posts
 
@@ -130,7 +125,7 @@ app.delete('deleteArticle/:articleID', (req, res) => {
     .catch((err) => {
       console.log(err);
       res.status(500).json({
-        message: 'there is error deleting a user',
+        message: 'there is error in deleting a post',
       });
     });
   //     (err) => {
@@ -167,7 +162,7 @@ app.get('/fetchArticles/:articleID', (req, res) => {
   Blog.findById(req.params.articleID)
     .then((post) => {
       res.status(200).json({
-        message: ':fetched one article successfully',
+        message: ':To fetche one article successfully',
         post: post,
       });
       post.views += 1;
