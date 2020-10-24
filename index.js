@@ -8,7 +8,7 @@ import expressUpload from 'express-fileupload';
 import dotenv from 'dotenv'
 import cors from 'cors'
 
-// import bodyParser from 'body-parser';
+
 dotenv.config()
 const app = express();
 app.use(cors())
@@ -22,7 +22,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(console.log('database connected'));
+  .then(console.log('Database connected'));
 
 //ctreate a post
 
@@ -86,7 +86,7 @@ try {
   console.log(error)
 
   res.status(500).json({
-    success: true,
+    success: false,
     error  
   });
   
