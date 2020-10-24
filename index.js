@@ -115,7 +115,7 @@ app.get('/fetchArticles', (req, res) => {
 
 //delete post
 
-app.delete('deleteArticle/:articleID', (req, res) => {
+app.delete('/deleteArticle/:articleID', (req, res) => {
   Blog.deleteOne({ _id: req.params.articleID })
     .then((result) => {
       res.status(200).json({
