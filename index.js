@@ -4,19 +4,20 @@ import Blog from './blogModel.js';
 import morgan from 'morgan';
 import Comment from './commentModel.js';
 import expressUpload from 'express-fileupload';
-import uploader from './cloudinary.js';
+//import uploader from './cloudinary.js';
 import dotenv from 'dotenv'
+import cors from 'cors'
 
 
 // import bodyParser from 'body-parser';
 dotenv.config()
 const app = express();
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 app.use(expressUpload({ useTempFiles: true }));
 
-//app.use(bodyParser.urlencoded({extended:true}));
 mongoose
   .connect(process.env.DATABASE, {
     useNewUrlParser: true,
@@ -62,20 +63,20 @@ mongoose
 // create post
 
 app.post('/createArticle', async(req, res) => {
-  const imagePath = req.files.picture.tempFilePath;
-console.log(imagePath);
+//   const imagePath = req.files.picture.tempFilePath;
+// console.log(imagePath);
 
 
 try {
-  const result =await uploader
-    .upload(imagePath, (error, result) => {
-      return result
-    })
+  // const result =await uploader
+  //   .upload(imagePath, (error, result) => {
+  //     return result
+  //   })
     
       const post =await Blog.create({
         title: req.body.title,
         body: req.body.body,
-        picture: result.url,
+        // picture: result.url,
         time: Date.now(),
       })
        res.status(201).json({
