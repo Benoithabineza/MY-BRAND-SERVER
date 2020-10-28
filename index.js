@@ -227,3 +227,4 @@ app.put('/fetchArticles/:articleID/like', (req, res) => {
 });
 
 app.listen(process.env.PORT, console.log('server is on port 3000'));
+export default app;
