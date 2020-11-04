@@ -24,43 +24,6 @@ mongoose
   })
   .then(console.log('Database connected'));
 
-//ctreate a post
-
-/*app.post("/createArticle", (req, res) => {  
-      const newArticle = new Blog({        
-          title: req.body.title,        
-          time: Date.now(),
-          picture:"",               
-          body: req.body.body,       
-           Likes: 0,
-           views:0    });    
-          newArticle.save((err) => {      
-                if (err) {          
-      console.log(err);        } else {          
-            res.send("Article Added successfully");        }    })});*/
-
-//GET ALL ARTICLES
-
-// app.get('/fetchArticles', (req, res) => {
-//   Blog.find((err, articles) => {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       res.send(articles);
-//     }
-//   });
-// });
-
-//delete all articles
-
-/*app.delete("/deleteArticles" , (req,res) => {   
-                          Blog.deleteMany((err) => {        
-                              if(err){           
-                               console.log(err);        }
-                               else{            res.send("All articles deleted successfully");        }    })})*/
-
-// create post
-
 app.post('/createArticle', async(req, res) => {
   const imagePath = req.files.picture.tempFilePath;
 
@@ -225,6 +188,30 @@ app.put('/fetchArticles/:articleID/like', (req, res) => {
       });
     });
 });
+
+//fetch all comment
+app.get('/fetchArticles/:id/allComment', async (req, res) => {
+  try {
+    const foundPost = await Blog.findById(req.params.id)
+      .populate('comments')
+      .sort({ time: -1 });
+    res.status(200).json({
+message:"all comments got",
+comment:foundPost.comments
+})
+  } catch (error) {
+    console.log(error);
+res.status(500).json({
+message:"there is an error",
+error:error
+})
+  }
+});
+
+
+
+
+
 
 app.listen(process.env.PORT, console.log('server is on port 3000'));
 export default app;
